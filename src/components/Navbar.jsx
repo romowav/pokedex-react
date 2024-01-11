@@ -1,10 +1,22 @@
 import { useForm } from 'react-hook-form'
+import axios from 'axios'
 
 const Navbar = () => {
+  const urlBase = 'https://pokeapi.co/api/v2/pokemon/'
   const { register, handleSubmit } = useForm()
   const formData = (data) => {
     // Aqui agarro el valor de mi search bar, y lo tengo que asignar a mi contexto
-    console.log(data)
+    // Primero agarro la informacion y la añado al URL que hara el fetch a la API
+    const pokeName = data.search.trim()
+    const nameLowC = pokeName.toLowerCase()
+    const urlAPI = urlBase + nameLowC
+    axios.get(urlAPI)
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((error) => {
+        throw new Error(error)
+      })
   }
   return (
     <>
