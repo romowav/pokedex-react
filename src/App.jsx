@@ -1,11 +1,14 @@
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Navbar from './components/Navbar'
+import { SearchProvider } from './context/SeacrhContext'
 
 function App () {
   return (
     <>
-      <Navbar />
+      <SearchProvider>
+        <Navbar />
+      </SearchProvider>
     </>
   )
 }
