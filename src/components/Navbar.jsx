@@ -1,4 +1,4 @@
-import { set, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useSearchContext } from '../hooks/useSearchContext'
 
@@ -24,7 +24,9 @@ const Navbar = () => {
     <>
       <nav className='navbar bg-body-tertiary'>
         <div className='container-fluid'>
-          <a className='navbar-brand'>PókeDex</a>
+          <div>
+            <a className='navbar-brand'>PókeDex</a>
+          </div>
           <form className='d-flex' role='search' onSubmit={handleSubmit(formData)}>
             <input
               className='form-control me-2'
