@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
-import { useSearchContext } from '../hooks/useSearchContext'
+import { useSearchContext } from '../../hooks/useSearchContext'
 
 const Navbar = () => {
   const urlBase = 'https://pokeapi.co/api/v2/pokemon/'
