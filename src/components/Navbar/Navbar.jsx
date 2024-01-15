@@ -16,9 +16,6 @@ const Navbar = () => {
       .then((response) => {
         setPokeSearch(response.data)
       })
-      .catch((error) => {
-        throw new Error(error)
-      })
   }
   return (
     <>
