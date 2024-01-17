@@ -75,16 +75,11 @@ const CardContainer = () => {
     for (let index = starter; index <= repeater; index++) {
       allUrl.push(urlBase + index)
     }
-    console.log(allUrl)
-  }
-
-  useEffect(() => {
-    // creo un nuevo array en donde almacenare la data que reciva de mis request
     const allPokeData = []
-    const getItemData = async () => {
+    const getItemData = async (pokeUrl) => {
       try {
         // utilizo el metodo axios.all para hacer varios request dinamicamente
-        await axios.all(allUrl.map((endpoint) => (
+        await axios.all(pokeUrl.map((endpoint) => (
           axios.get(endpoint)
           // Aqui especifico que en caso de ser exitoso, almacenamos cada respuesta con .push
             .then((response) => (
@@ -101,7 +96,33 @@ const CardContainer = () => {
         throw new Error(error)
       }
     }
-    getItemData()
+    getItemData(allUrl)
+  }
+
+  useEffect(() => {
+    // creo un nuevo array en donde almacenare la data que reciva de mis request
+    const allPokeData = []
+    const getItemData = async (pokeUrl) => {
+      try {
+        // utilizo el metodo axios.all para hacer varios request dinamicamente
+        await axios.all(pokeUrl.map((endpoint) => (
+          axios.get(endpoint)
+          // Aqui especifico que en caso de ser exitoso, almacenamos cada respuesta con .push
+            .then((response) => (
+              allPokeData.push(response.data)
+            ))
+        )))
+        // Para evitar que se desordenen la info, debido a que algunos HTTP request llegan antes que otros, uso el metodo .sort para acomodarlos por el id
+        allPokeData.sort(function (x, y) {
+          return x.id - y.id
+        })
+        // Almaceno mi informacion en mi hook para tenerlo de manera global
+        setPokeData(allPokeData)
+      } catch (error) {
+        throw new Error(error)
+      }
+    }
+    getItemData(allUrl)
   }, [])
 
   return (
