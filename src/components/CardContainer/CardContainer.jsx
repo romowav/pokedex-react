@@ -123,7 +123,7 @@ const CardContainer = () => {
       }
     }
     getItemData(allUrl)
-  }, [])
+  }, [allUrl])
 
   return (
     <>
