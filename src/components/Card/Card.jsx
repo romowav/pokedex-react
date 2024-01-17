@@ -1,11 +1,13 @@
 import './Card.css'
 
-const Card = (pokemon) => {
+const Card = (props) => {
+  const pokemon = props.pokeObj
+
   return (
     <>
-      <div className='card'>
+      <div className='card m-2'>
         <div className='img-cont'>
-          <img src='https://w7.pngwing.com/pngs/191/193/png-transparent-heart-free-content-small-valentine-s-love-heart-presentation-thumbnail.png' className='card-img-top' alt='...' />
+          <img src={pokemon.sprites.front_default} className='card-img-top' alt={pokemon.name} />
         </div>
         <div className='card-body-romo'>
           <h5 className='card-title'>{pokemon.name}</h5>
