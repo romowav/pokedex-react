@@ -1,10 +1,11 @@
 import { Routes, Route } from 'react-router-dom'
-import { Home } from '../pages'
+import { Home, SearchDetails } from '../pages'
 
 const RoutesIndex = () => {
   return (
     <Routes>
       <Route path='/' element={<Home />} />
+      <Route path='/:name' element={<SearchDetails />} />
     </Routes>
   )
 }

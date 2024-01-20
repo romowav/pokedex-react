@@ -27,7 +27,6 @@ const CardContainer = () => {
   }, [])
   // Aqui esta la logica para crear dinamicamente las "tabs" de pagination
   //
-  // const listSelect = document.getElementsByClassName('romo-list').getAttribute('value')
   const createTabs = () => {
     const tabs = [] // Crear un array para almacenar los elementos del bucle
 
@@ -123,7 +122,7 @@ const CardContainer = () => {
       }
     }
     getItemData(allUrl)
-  }, [allUrl])
+  }, [])
 
   return (
     <>
