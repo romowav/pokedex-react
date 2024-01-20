@@ -7,9 +7,14 @@ import axios from 'axios'
 const CardContainer = () => {
   const [pokeData, setPokeData] = useState([])
   const [tabNum, setTabNum] = useState()
+  const [tabValue, setTabValue] = useState(1)
   // Creo un array vacio en el nivel mas alto para almacenar la info despues
   const allUrl = []
   const urlBase = 'https://pokeapi.co/api/v2/pokemon/'
+
+  useEffect(() => {
+    console.log(tabValue)
+  })
 
   // Obtengo total de pokemones para saber cuantos tab necesito
   useEffect(() => {
@@ -17,7 +22,7 @@ const CardContainer = () => {
       try {
         await axios.get(urlBase)
           .then((response) => (
-            setTabNum(response.data.count / 72)
+            setTabNum((response.data.count - 277) / 72)
           ))
       } catch (error) {
         throw new Error(error)
@@ -29,14 +34,18 @@ const CardContainer = () => {
   //
   const createTabs = () => {
     const tabs = [] // Crear un array para almacenar los elementos del bucle
-
     if (Number.isInteger(tabNum) === true) {
       for (let index = 1; index <= tabNum; index++) {
         const idIndex = `romo-id-${index}`
         // Agregar elementos al array en lugar de solo crearlos
         tabs.push(
           <li className='page-item romo-list' id={idIndex} key={index} value={index * 72}>
-            <button className='page-link' onClick={() => { urlCreator2(((index * 72) - 71), (index * 72)) }}>
+            <button
+              className='page-link' value={index} onClick={(e) => {
+                urlCreator2(((index * 72) - 71), (index * 72))
+                setTabValue(e.target.value)
+              }}
+            >
               {index}
             </button>
           </li>
@@ -46,11 +55,15 @@ const CardContainer = () => {
       const repeat = Math.trunc(tabNum + 1)
       for (let index = 1; index <= repeat; index++) {
         const idIndex = `romo-id-${index}`
-        // const liValue = document.getElementById(idIndex).getAttribute('value')
         // Agregar elementos al array en lugar de solo crearlos
         tabs.push(
           <li className='page-item romo-list' id={idIndex} key={index} value={index * 72}>
-            <button className='page-link' onClick={() => { urlCreator2(((index * 72) - 71), (index * 72)) }}>
+            <button
+              className='page-link' value={index} onClick={(e) => {
+                urlCreator2(((index * 72) - 71), (index * 72))
+                setTabValue(e.target.value)
+              }}
+            >
               {index}
             </button>
           </li>
@@ -58,6 +71,27 @@ const CardContainer = () => {
       }
     }
     return tabs // Devolver el array de elementos creados
+  }
+
+  const previousTab = () => {
+    if (tabValue <= 1) {
+      throw new Error('no puedes bajar mas')
+    } else {
+      const oldIndex = tabValue - 1
+      urlCreator2(((oldIndex * 72) - 71), (oldIndex * 72))
+      setTabValue(oldIndex)
+    }
+  }
+
+  const nextTab = () => {
+    const maxTab = Math.trunc(tabNum + 1)
+    if (tabValue >= maxTab) {
+      throw new Error('no puedes subir mas')
+    } else {
+      const oldIndex = tabValue + 1
+      urlCreator2(((oldIndex * 72) - 71), (oldIndex * 72))
+      setTabValue(oldIndex)
+    }
   }
 
   // Creo una funcion para que me genere los URL y los almaceno en el array creado anteriormente
@@ -70,9 +104,10 @@ const CardContainer = () => {
 
   const urlCreator2 = (starter, repeater) => {
     allUrl.length = 0
-    // const start = repeater / 72
     for (let index = starter; index <= repeater; index++) {
-      allUrl.push(urlBase + index)
+      if (index <= 1025) {
+        allUrl.push(urlBase + index)
+      }
     }
     const allPokeData = []
     const getItemData = async (pokeUrl) => {
@@ -128,15 +163,15 @@ const CardContainer = () => {
     <>
       <div className='master-container'>
         <nav aria-label='Page navigation pokedex'>
-          <ul className='pagination'>
+          <ul className='pagination m-3'>
             <li className='page-item'>
-              <a className='page-link' href='#' aria-label='Previous'>
+              <button className='page-link' href='#' aria-label='Previous' onClick={previousTab}>
                 <span aria-hidden='true'>«</span>
-              </a>
+              </button>
             </li>
             {tabNum && createTabs()}
             <li className='page-item'>
-              <a className='page-link' href='#' aria-label='Next'>
+              <a className='page-link' href='#' aria-label='Next' onClick={nextTab}>
                 <span aria-hidden='true'>»</span>
               </a>
             </li>
@@ -147,6 +182,21 @@ const CardContainer = () => {
             <Card pokeObj={pokemon} key={pokemon.id} />
           ))}
         </div>
+        <nav aria-label='Page navigation pokedex'>
+          <ul className='pagination m-3'>
+            <li className='page-item'>
+              <button className='page-link' href='#' aria-label='Previous' onClick={previousTab}>
+                <span aria-hidden='true'>«</span>
+              </button>
+            </li>
+            {tabNum && createTabs()}
+            <li className='page-item'>
+              <button className='page-link' href='#' aria-label='Next' onClick={nextTab}>
+                <span aria-hidden='true'>»</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
       </div>
     </>
   )

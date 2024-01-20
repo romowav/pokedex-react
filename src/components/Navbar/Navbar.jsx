@@ -10,16 +10,16 @@ const Navbar = () => {
   const [search, setSearch] = useState('')
 
   const searchData = async (data) => {
-    console.log('after calling searchData -', data)
+    // console.log('after calling searchData -', data)
     const pokeName = data.trim()
     const nameLowC = pokeName.toLowerCase()
     const urlAPI = urlBase + nameLowC
-    console.log('after urlAPI const -', urlAPI)
+    // console.log('after urlAPI const -', urlAPI)
     try {
       const response = await axios.get(urlAPI)
-      console.log('try response -', response.data)
+      // console.log('try response -', response.data)
       setPokeState(response.data)
-      console.log('pokeState -', pokeState)
+      // console.log('pokeState -', pokeState)
       setPokeSearch(pokeState)
     } catch (error) {
       console.error('Error fetching data:', error)

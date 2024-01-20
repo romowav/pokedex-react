@@ -3,7 +3,6 @@ import { useSearchContext } from '../hooks/useSearchContext'
 
 const SearchDetails = () => {
   const { pokeSearch } = useSearchContext()
-  console.log('search details: pokeSearch - ', pokeSearch)
 
   return (
     <>
