@@ -3,6 +3,7 @@ import '../Card/Card.css'
 import './CardContainer.css'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 const CardContainer = () => {
   const [pokeData, setPokeData] = useState([])
@@ -11,10 +12,6 @@ const CardContainer = () => {
   // Creo un array vacio en el nivel mas alto para almacenar la info despues
   const allUrl = []
   const urlBase = 'https://pokeapi.co/api/v2/pokemon/'
-
-  useEffect(() => {
-    console.log(tabValue)
-  })
 
   // Obtengo total de pokemones para saber cuantos tab necesito
   useEffect(() => {
@@ -43,7 +40,7 @@ const CardContainer = () => {
             <button
               className='page-link' value={index} onClick={(e) => {
                 urlCreator2(((index * 72) - 71), (index * 72))
-                setTabValue(e.target.value)
+                setTabValue(parseInt(e.target.value))
               }}
             >
               {index}
@@ -61,7 +58,7 @@ const CardContainer = () => {
             <button
               className='page-link' value={index} onClick={(e) => {
                 urlCreator2(((index * 72) - 71), (index * 72))
-                setTabValue(e.target.value)
+                setTabValue(parseInt(e.target.value))
               }}
             >
               {index}
@@ -178,8 +175,11 @@ const CardContainer = () => {
           </ul>
         </nav>
         <div className='d-flex flex-row flex-wrap justify-content-center container-romo'>
-          {pokeData && pokeData.map((pokemon) => (
-            <Card pokeObj={pokemon} key={pokemon.id} />
+          {pokeData &&
+          pokeData.map((pokemon) => (
+            <Link to={'/' + pokemon.name} key={pokemon.id} value={pokemon}>
+              <Card pokeObj={pokemon} />
+            </Link>
           ))}
         </div>
         <nav aria-label='Page navigation pokedex'>
